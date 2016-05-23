@@ -1,0 +1,29 @@
+{
+  "name":"kanity2",
+  "description":"A 2D Game Engine",
+  "authors":[
+    "Tosuke",
+  ],
+  "dependencies":{
+    "derelict-gl3":"*",
+    "derelict-glfw3":"*"
+  },
+  "targetPath":"bin",
+  "workingDirectory":"bin",
+  "sourcePaths":[],
+
+   "configurations":[
+     {
+       "name":"engine",
+       "targetName":"kanity",
+       "sourcePaths":["source"],
+       "targetType":"executable",
+     },
+     {
+       "name":"testso",
+       "targetName":"test",
+       "sourcePaths":["tests"],
+       "targetType":"dynamicLibrary",
+     }
+   ]
+}

@@ -1,8 +1,7 @@
 module kanity.utils.soloader;
 
+import kanity.imports;
 import std.string : toStringz;
-import std.exception : enforce;
-import std.conv : to;
 
 alias SharedObjectHandle = void*;
 
@@ -12,10 +11,16 @@ static:
     version(Posix){
       import core.sys.posix.dlfcn;
       auto handle = dlopen(name.toStringz, RTLD_NOW | RTLD_GLOBAL);
+      dlerror().to!string.log;
       enforce(handle, dlerror().to!string);
       return handle;
     }
-    assert(0, "Sorry this environment is not supported.");
+    version(Windows){
+      auto handle = LoadLibraryA(name.toStringz);
+      enforce(handle, "Failed to load library.");
+      return handle;
+    }
+    assert(0, "Sorry, this environment is not supported.");
   }
   void unload(SharedObjectHandle handle){
     if(handle == null) return;
@@ -25,7 +30,11 @@ static:
       enforce(!dlclose(handle), dlerror().to!string);
       return;
     }
-    assert(0, "Sorry this environment is not supported.");
+    version(Windows){
+      FreeLibrary(handle);
+      return;
+    }
+    assert(0, "Sorry, this environment is not supported.");
   }
   import std.traits;
   auto loadFunc(T)(SharedObjectHandle handle, string name) if(isSomeFunction!T){
@@ -37,6 +46,11 @@ static:
       enforce(func, dlerror().to!string);
       return cast(T)func;
     }
-    assert(0, "Sorry this environment is not supported.");
+    version(Windows){
+      auto func = GetProcAddress(handle, name.toStringz);
+      enforce(func, "Failed to load function.");
+      return cast(T)func;
+    }
+    assert(0, "Sorry, this environment is not supported.");
   }
 }

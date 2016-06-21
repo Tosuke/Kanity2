@@ -6,7 +6,9 @@
   ],
   "dependencies":{
     "derelict-gl3":"*",
-    "derelict-glfw3":"*"
+    "derelict-glfw3":"*",
+    "gl3n":"*",
+    "derelict-fi":"*"
   },
   "targetPath":"bin",
   "workingDirectory":"bin",

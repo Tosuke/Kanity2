@@ -20,6 +20,7 @@
        "targetName":"kanity",
        "sourcePaths":["source"],
        "targetType":"executable",
+       "dflags-ldc":["-O5"]
      },
      {
        "name":"testso",

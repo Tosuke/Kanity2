@@ -12,7 +12,7 @@ import std.traits;
 Example:
   data in schema : バリデーション
 */
-
+/*
 //KanityDataType
 unittest{
   auto data = KanityData(10).type;
@@ -350,3 +350,4 @@ public struct KanityArrayType{
   }
 }
 public alias KanityObjectType = KanityDataType[string];
+*/

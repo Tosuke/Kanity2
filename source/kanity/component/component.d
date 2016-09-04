@@ -8,5 +8,5 @@ abstract class KanityComponent{
   void update(){}
   void finalize(){}
 
-  abstract void send(in string operation, KanityData[] args);
+  //abstract void send(in string operation, KanityData[] args);
 }

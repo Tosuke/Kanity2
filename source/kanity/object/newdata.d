@@ -1,19 +1,4 @@
-module kanity.object.data;
 
-import kanity.imports;
-import kanity.object.type;
-import kanity.object.object;
-import kanity.component.component;
-
-//KanityData
-/*
-Kanity内のオブジェクトのデータの最小単位
-JSON相当のデータを格納する
-代入した時点で型が決定し、
-(デバッグモード時に)暗黙変換不可能な型で取得しようとしたり代入したりしようとするとエラー
-*/
-
-//値の操作
 unittest{
   auto a = KanityData(2.0);
   auto b = a.dup;
@@ -23,7 +8,6 @@ unittest{
   a = KanityData(3.0); //OK
   assert(b.get!double == 2.0);
 }
-//配列の操作
 unittest{
   auto a = KanityData([1, 2, 3]);
   auto b = a.dup;
@@ -40,7 +24,6 @@ unittest{
   k[1] = KanityData("hage");
   k[2] = KanityData(3.14);
 }
-//連想配列の操作
 unittest{
   auto a = KanityData(DataType.Object);
   a.add("hoge", 32);
@@ -80,7 +63,7 @@ alias StringType = string;
 
 private alias Types = AliasSeq!(NullType, IntegerType, FloaterType, BooleanType, StringType);
 
-public struct KanityData{
+struct KanityData{
   union{
     private Algebraic!Types data_;
     @property{
@@ -361,10 +344,8 @@ public struct KanityData{
   }
 }
 
-//その型をKanityDataに代入できるかどうか
 private enum bool isValid(T) = is(ValidType!T);
 
-//KanityDataの内部プリミティブ型の中から渡された型に最も近いものを探す
 private template ValidType(T){
   static if(is(T : BooleanType)){
     alias ValidType = BooleanType;
@@ -381,7 +362,6 @@ private template ValidType(T){
   }
 }
 
-//渡された型をDataTypeに変換する
 private template toDataType(T){
   static if(is(T : BooleanType)){
     alias toDataType = DataType.Boolean;
